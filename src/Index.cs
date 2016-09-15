@@ -5,7 +5,7 @@ using webserver.handlers;
 namespace webserver {
   class index {
 
-    static void Main2(string[] args) {
+    static void Main(string[] args) {
       List<IRequestHandler> _handlers = new List<IRequestHandler>();
       // add your custom handlers
       // _handlers.Add(new webserver.handlers.YourCustomHandler());

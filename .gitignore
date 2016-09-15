@@ -1,5 +1,6 @@
 /bin
 /obj
+/packages/Newton*
 *.suo
 *.opensdf
 *.sdf
