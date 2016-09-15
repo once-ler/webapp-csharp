@@ -15,7 +15,7 @@ namespace webserver.handlers {
       }
       string page = "";
       if (ctx.Request.Url.LocalPath.ToLower().Equals("/") || ctx.Request.Url.LocalPath.ToLower().EndsWith(".html")) {
-        page = Directory.GetCurrentDirectory() + ctx.Request.Url.LocalPath.Replace("/", "/webserver/static/dist/index.html");
+        page = Directory.GetCurrentDirectory() + ctx.Request.Url.LocalPath.Replace("/", "/static/dist/index.html");
       } else {
         page = Directory.GetCurrentDirectory() + ctx.Request.Url.LocalPath.Replace("/", @"\");
       }

@@ -4,6 +4,7 @@
 
 ```javascript
 webserver
+-src
   -> contracts
      -> BindableObjects
   -> extensions
@@ -17,7 +18,7 @@ webserver
      -> LogHandler (always called)
   -> host
      -> asyncServer (default)
-  -> static
-     -> dist
-        any html/js/css
+-> static
+  -> dist
+     any html/js/css  
 ```
