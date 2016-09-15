@@ -4,6 +4,7 @@ using System.Text;
 using System.Security.Principal;
 using System.DirectoryServices.AccountManagement;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using webserver.extensions;
 using webserver.contracts;
 
@@ -16,21 +17,30 @@ namespace webserver.handlers {
           ) {
         return incoming;
       }
-      if (ctx.User == null) {
-        return Encoding.UTF8.GetBytes("{\"firstName\": \"\",\"lastName\": \"\"}"); 
-      }
-      Dictionary<string, object> user = new Dictionary<string, object>();
-      var domainUser = ctx.User.Identity.Name.Split('\\');
-      user.Add("id", domainUser[1]);
+
+      dynamic response = new Dictionary<string, object>();
+
+      response["user"] = new Dictionary<string, object> { { "id", "ANONYMOUS" }, { "firstName", "" }, { "lastName", "" } };
+      response["headers"] = ctx.Request.Headers;
+      response["cookies"] = ctx.Request.Cookies;
       
-      PrincipalContext pctx = new PrincipalContext(ContextType.Domain, domainUser[0]);
-      UserPrincipal up = UserPrincipal.FindByIdentity(pctx, domainUser[1]);      
-      if(up != null) {
-        user.Add("firstName", up.GivenName);
-        user.Add("lastName", up.Surname);
-        user.Add("email", up.EmailAddress);
+      // Ntlm
+      if (ctx.User != null) {
+        Dictionary<string, object> user = new Dictionary<string, object>();
+        var domainUser = ctx.User.Identity.Name.Split('\\');
+        user.Add("id", domainUser[1]);
+
+        PrincipalContext pctx = new PrincipalContext(ContextType.Domain, domainUser[0]);
+        UserPrincipal up = UserPrincipal.FindByIdentity(pctx, domainUser[1]);
+        if (up != null) {
+          user.Add("firstName", up.GivenName);
+          user.Add("lastName", up.Surname);
+          user.Add("email", up.EmailAddress);
+        }
+        response["user"] = user;
       }
-      var body = new BindableObjects<Dictionary<string, object>>(user).toJson();
+      // var body = new BindableObjects<Dictionary<string, object>>(user).toJson();
+      var body = Newtonsoft.Json.JsonConvert.SerializeObject(response);
       return Encoding.UTF8.GetBytes(body);
     }
   }

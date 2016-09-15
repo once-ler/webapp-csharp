@@ -11,8 +11,11 @@ namespace webserver.host {
   
   public sealed class AsyncHttpListener : IDisposable {
     private List<IRequestHandler> handlers = new List<IRequestHandler>();
-    // private IRequestHandler _requestHandler;
     private System.Net.HttpListener _httpListener;
+    private Dictionary<string, System.Net.AuthenticationSchemes> authTypes = new Dictionary<string,AuthenticationSchemes>{ 
+      {"NTLM", AuthenticationSchemes.Ntlm },
+      { "ANONYMOUS", AuthenticationSchemes.Anonymous } 
+    };
 
     public AsyncHttpListener(int port, List<IRequestHandler> customHandlers) {
       // default => static file handler (ie html/css/etc)
@@ -26,7 +29,7 @@ namespace webserver.host {
       // netsh http add urlacl url=http://+:7777/ user=everyone
       _httpListener.Prefixes.Add("http://+:" + port.ToString() + "/");
       // use Windows authentication
-      _httpListener.AuthenticationSchemes = AuthenticationSchemes.Anonymous|AuthenticationSchemes.Ntlm;
+      _httpListener.AuthenticationSchemes = authTypes[webapp_csharp.Properties.Settings.Default.AuthenticationType];
       _httpListener.UnsafeConnectionNtlmAuthentication = true;
       
       Console.WriteLine("Listening for requests on http://localhost:7777/");
