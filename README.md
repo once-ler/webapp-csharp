@@ -5,8 +5,6 @@
 ```javascript
 webserver
 -src
-  -> contracts
-     -> BindableObjects
   -> extensions
      -> httpListenerResponseExtensions
      -> webRequestInfo

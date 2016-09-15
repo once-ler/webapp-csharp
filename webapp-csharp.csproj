@@ -52,7 +52,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="src\contracts\BindableObjects.cs" />
     <Compile Include="src\extensions\HttpListenerResponseExtensions.cs" />
     <Compile Include="src\extensions\WebRequestInfo.cs" />
     <Compile Include="src\handlers\AuthHandler.cs" />

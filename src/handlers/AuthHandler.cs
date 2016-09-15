@@ -6,7 +6,6 @@ using System.DirectoryServices.AccountManagement;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using webserver.extensions;
-using webserver.contracts;
 
 namespace webserver.handlers {
   class AuthHandler : IRequestHandler {
