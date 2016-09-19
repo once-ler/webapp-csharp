@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GraphQL">
+      <HintPath>packages\GraphQL.0.11.0.493\lib\net45\GraphQL.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -54,11 +57,20 @@
     </Compile>
     <Compile Include="src\extensions\HttpListenerResponseExtensions.cs" />
     <Compile Include="src\extensions\WebRequestInfo.cs" />
+    <Compile Include="src\graphql\StarWars\StarWarsData.cs" />
+    <Compile Include="src\graphql\StarWars\StarWarsQuery.cs" />
+    <Compile Include="src\graphql\StarWars\StarWarsSchema.cs" />
+    <Compile Include="src\graphql\StarWars\types\CharacterInterface.cs" />
+    <Compile Include="src\graphql\StarWars\types\DroidType.cs" />
+    <Compile Include="src\graphql\StarWars\types\EpisodeEnum.cs" />
+    <Compile Include="src\graphql\StarWars\types\HumanType.cs" />
     <Compile Include="src\handlers\AuthHandler.cs" />
+    <Compile Include="src\handlers\GraphQLHandler.cs" />
     <Compile Include="src\handlers\IRequestHandler.cs" />
     <Compile Include="src\handlers\StaticHandler.cs" />
     <Compile Include="src\host\AsyncServer.cs" />
     <Compile Include="src\Index.cs" />
+    <Compile Include="src\graphql\StarWars\types\StarWarsCharacter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
