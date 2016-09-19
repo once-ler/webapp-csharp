@@ -13,7 +13,8 @@ webserver
      Simply define a function "process" with signature: byte[] process(HttpListenerContext ctx, WebRequestInfo info, byte[] incoming)
      -> AuthHandler (always called)
      -> StaticHandler (always called)
-     -> LogHandler (always called)
+     -> LogHandler (always called __Not yet implemented__)
+     -> GraphQLHandler (optional)
   -> host
      -> asyncServer (default)
 -> static
