@@ -1,6 +1,6 @@
 # webapp-csharp
 
-####An Opinionated C# Web App (No MVC)
+####An Opinionated C# Web App (No MVC) with support for GraphQL
 
 ```javascript
 webserver
