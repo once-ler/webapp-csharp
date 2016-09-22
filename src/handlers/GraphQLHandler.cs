@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
@@ -12,6 +13,8 @@ using webserver.extensions;
 
 namespace webserver.handlers {
   class GraphQLHandler : IRequestHandler {
+
+    static Regex endingPathMatch = new Regex(@"\/(graphql)\/?", RegexOptions.IgnoreCase);
 
     public class GraphQLQuery {
       public string OperationName { get; set; }
@@ -33,17 +36,18 @@ namespace webserver.handlers {
     }
 
     public byte[] process(HttpListenerContext ctx, WebRequestInfo info, byte[] incoming) {
-      if (!ctx.Request.Url.LocalPath.ToLower().Equals("/graphql")) {
+      //if (!ctx.Request.Url.LocalPath.ToLower().Equals("/graphql")) {
+      if (!endingPathMatch.IsMatch(ctx.Request.Url.LocalPath)) {
         return incoming;
       }
       string response = "{ \"message\": \"Error Ocurred\"}";
       var query = ctx.Request.QueryString["query"] != null ? ctx.Request.QueryString["query"] : info.body;
-      // var q = JsonConvert.DeserializeObject<GraphQLQuery>(query);
       
       var gql = new GraphQLQuery { Query = query, Variables = "" };
       Task<ExecutionResult> runner;
       try {
         runner = ExecuteAsync(_schema, null, gql.Query, gql.OperationName, gql.Variables.ToInputs());
+        // runner = ExecuteAsync(_schema, null, gql.Query);
         var result = runner.Result;
 
         if (result.Data != null) {
