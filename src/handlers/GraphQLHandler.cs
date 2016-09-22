@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
+using Newtonsoft.Json;
 
 using webserver.extensions;
 
@@ -26,21 +29,32 @@ namespace webserver.handlers {
     }
 
     public async Task<ExecutionResult> ExecuteAsync(ISchema schema, object rootObject, string query, string operationName = null, Inputs inputs = null) {
-      return await _executer.ExecuteAsync(schema, rootObject, query, operationName, inputs).ConfigureAwait(true);
+      return await _executer.ExecuteAsync(schema, rootObject, query, operationName, inputs).ConfigureAwait(true);      
     }
 
     public byte[] process(HttpListenerContext ctx, WebRequestInfo info, byte[] incoming) {
       if (!ctx.Request.Url.LocalPath.ToLower().Equals("/graphql")) {
         return incoming;
       }
+      string response = "{ \"message\": \"Error Ocurred\"}";
+      var query = ctx.Request.QueryString["query"] != null ? ctx.Request.QueryString["query"] : info.body;
+      // var q = JsonConvert.DeserializeObject<GraphQLQuery>(query);
+      
+      var gql = new GraphQLQuery { Query = query, Variables = "" };
+      Task<ExecutionResult> runner;
+      try {
+        runner = ExecuteAsync(_schema, null, gql.Query, gql.OperationName, gql.Variables.ToInputs());
+        var result = runner.Result;
 
-      string response = "{ \"message\": \"Error Ocurred\"}"; 
-      var query = new GraphQLQuery { Query = info.body, Variables = "" };
-      var runner = ExecuteAsync(_schema, null, query.Query, query.OperationName, query.Variables.ToInputs());
-      var result = runner.Result;
-  
-      if (result.Errors.Count == 0) {
-        response = _writer.Write(result);        
+        if (result.Data != null) {
+          response = _writer.Write(result);
+        }
+        
+        if (result.Errors != null && result.Errors.Count > 0) {
+          response = string.Join(",", result.Errors.Map(d => d.ToString()));
+        }
+      } catch (Exception e) {
+        response = e.Message;
       }
 
       return Encoding.UTF8.GetBytes(response);

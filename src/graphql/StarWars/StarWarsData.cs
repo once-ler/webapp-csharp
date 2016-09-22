@@ -53,7 +53,8 @@ namespace GraphQL.StarWars {
     }
 
     public Task<Droid> GetDroidByIdAsync(string id) {
-      return Task.FromResult(_droids.FirstOrDefault(h => h.Id == id));
+      var r = Task.FromResult(_droids.FirstOrDefault(h => h.Id == id));
+      return r;
     }
   }
 }

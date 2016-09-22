@@ -14,6 +14,7 @@ namespace webserver {
       // _handlers.Add(new webserver.handlers.YourCustomHandler());
       // Add GraphQL handler, you are responsible for creating the GraphQL Schema
       _handlers.Add(new GraphQLHandler(new StarWarsSchema{ Query = new StarWarsQuery(new StarWarsData()) }));
+      // _handlers.Add(new GraphQLHandler(new StarWarsSchema(type => new StarWarsQuery(new StarWarsData()))));
       
       // create the async server
       AsyncHttpListener server = new AsyncHttpListener(7777, _handlers);

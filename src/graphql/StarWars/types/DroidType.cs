@@ -2,6 +2,13 @@ using GraphQL.Types;
 
 namespace GraphQL.StarWars.Types {
   public class DroidType : ObjectGraphType {
+    public DroidType() {
+      Name = "Droid";
+      Field<NonNullGraphType<StringGraphType>>("id", "The id of the droid.");
+      Field<StringGraphType>("name", "The name of the droid.");
+      IsTypeOf = value => value is Droid;
+    }
+
     public DroidType(StarWarsData data) {
       Name = "Droid";
       Description = "A mechanical creature in the Star Wars universe.";

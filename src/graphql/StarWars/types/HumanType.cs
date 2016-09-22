@@ -3,6 +3,9 @@ using GraphQL.Types;
 namespace GraphQL.StarWars.Types
 {
   public class HumanType : ObjectGraphType {
+    public HumanType() {
+
+    }
     public HumanType(StarWarsData data) {
         Name = "Human";
 
