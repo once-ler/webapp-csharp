@@ -36,7 +36,6 @@ namespace webserver.handlers {
     }
 
     public byte[] process(HttpListenerContext ctx, WebRequestInfo info, byte[] incoming) {
-      //if (!ctx.Request.Url.LocalPath.ToLower().Equals("/graphql")) {
       if (!endingPathMatch.IsMatch(ctx.Request.Url.LocalPath)) {
         return incoming;
       }
