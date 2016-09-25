@@ -79,6 +79,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="src\graphql\StarWars\examples.gql" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="static\dist\index.html">
